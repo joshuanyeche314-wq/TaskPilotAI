@@ -1,664 +1,551 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TaskPilotAI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<title>TaskPilotAI</title>
 
-    body {
-      background: #f5f7fb;
-      color: #172033;
-      padding-bottom: 80px;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    header {
-      background: #ffffff;
-      padding: 17px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+body{
+  background:#f5f7fb;
+  color:#172033;
+  padding-bottom:80px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2563eb;
-    }
+header{
+  background:white;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #e5e7eb;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
 
-    .balance {
-      background: #eff6ff;
-      color: #2563eb;
-      padding: 9px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-    }
+.logo{
+  font-size:21px;
+  font-weight:bold;
+  color:#2563eb;
+}
 
-    .hero {
-      padding: 30px 20px 20px;
-      text-align: center;
-    }
+.balance{
+  background:#eff6ff;
+  color:#2563eb;
+  padding:9px 13px;
+  border-radius:20px;
+  font-weight:bold;
+}
 
-    .hero h1 {
-      font-size: 29px;
-      margin-bottom: 10px;
-    }
+.hero{
+  padding:30px 20px 20px;
+  text-align:center;
+}
 
-    .hero p {
-      color: #667085;
-      line-height: 1.5;
-    }
+.hero h1{
+  font-size:28px;
+  margin-bottom:10px;
+}
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      padding: 10px 20px 30px;
-    }
+.hero p{
+  color:#667085;
+  line-height:1.5;
+}
 
-    .section-title {
-      font-size: 21px;
-      margin: 20px 0 15px;
-    }
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:10px 18px 30px;
+}
 
-    .filter-buttons {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 18px;
-    }
+.filter-box{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin:10px 0 20px;
+}
 
-    .filter-buttons button {
-      border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      background: #e9edf5;
-      color: #344054;
-      white-space: nowrap;
-      font-weight: bold;
-    }
+.filter{
+  border:none;
+  background:white;
+  padding:10px 16px;
+  border-radius:20px;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
 
-    .filter-buttons button.active {
-      background: #2563eb;
-      color: white;
-    }
+.filter.active{
+  background:#2563eb;
+  color:white;
+}
 
-    .task {
-      background: white;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-    }
+.section-title{
+  font-size:21px;
+  margin:15px 0;
+}
 
-    .task-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-    }
+.task{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
 
-    .task h3 {
-      font-size: 17px;
-      margin-bottom: 8px;
-    }
+.task-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
 
-    .task p {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.task h3{
+  font-size:17px;
+  margin-bottom:8px;
+}
 
-    .platform {
-      display: inline-block;
-      margin-bottom: 8px;
-      padding: 5px 9px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: bold;
-      background: #f2f4f7;
-    }
+.task p{
+  color:#667085;
+  font-size:14px;
+  line-height:1.5;
+}
 
-    .reward {
-      color: #16a34a;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+.reward{
+  color:#16a34a;
+  font-weight:bold;
+  white-space:nowrap;
+}
 
-    .start-btn {
-      width: 100%;
-      margin-top: 15px;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-    }
+.platform{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 9px;
+  border-radius:8px;
+  background:#f2f4f7;
+  font-size:12px;
+  font-weight:bold;
+}
 
-    .task-page {
-      display: none;
-    }
+.task button{
+  width:100%;
+  margin-top:15px;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+}
 
-    .back-btn {
-      background: #e9edf5;
-      color: #344054;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
+.task button:active{
+  transform:scale(.98);
+}
 
-    .instruction-box,
-    .proof-box {
-      background: white;
-      border-radius: 17px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-    }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:50;
+  padding:20px;
+  overflow-y:auto;
+}
 
-    .instruction-box h2 {
-      margin-bottom: 12px;
-    }
+.modal-box{
+  background:white;
+  max-width:600px;
+  margin:40px auto;
+  border-radius:18px;
+  padding:22px;
+}
 
-    .instruction-box p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 10px;
-    }
+.modal-box h2{
+  margin-bottom:15px;
+}
 
-    .task-link {
-      display: block;
-      text-align: center;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      padding: 13px;
-      border-radius: 11px;
-      margin: 18px 0;
-      font-weight: bold;
-    }
+.step{
+  background:#f8fafc;
+  padding:13px;
+  border-radius:10px;
+  margin-bottom:10px;
+  line-height:1.5;
+}
 
-    .proof-box h3 {
-      margin-bottom: 8px;
-    }
+.task-link{
+  display:block;
+  text-align:center;
+  background:#2563eb;
+  color:white;
+  text-decoration:none;
+  padding:13px;
+  border-radius:10px;
+  margin:15px 0;
+  font-weight:bold;
+}
 
-    .proof-box p {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 15px;
-    }
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
+input[type="text"],
+input[type="file"]{
+  width:100%;
+  padding:12px;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  background:white;
+}
 
-    input[type="file"],
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d0d5dd;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      background: white;
-    }
+.submit-btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  background:#16a34a;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:18px;
+}
 
-    #preview {
-      width: 100%;
-      max-height: 320px;
-      object-fit: contain;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      display: none;
-    }
+.close-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#eef2f6;
+  margin-top:10px;
+}
 
-    .submit-btn {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 11px;
-      background: #16a34a;
-      color: white;
-      font-size: 15px;
-      font-weight: bold;
-    }
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #e5e7eb;
+  display:flex;
+  justify-content:space-around;
+  padding:12px 5px;
+  z-index:30;
+}
 
-    .status {
-      display: none;
-      margin-top: 15px;
-      padding: 14px;
-      border-radius: 10px;
-      background: #fff7e6;
-      color: #9a6700;
-      text-align: center;
-      font-weight: bold;
-    }
+.bottom-nav div{
+  text-align:center;
+  color:#667085;
+  font-size:12px;
+}
 
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 5px;
-      z-index: 20;
-    }
+.bottom-nav .active{
+  color:#2563eb;
+  font-weight:bold;
+}
 
-    .bottom-nav div {
-      text-align: center;
-      color: #667085;
-      font-size: 12px;
-    }
-
-    .bottom-nav .active {
-      color: #2563eb;
-      font-weight: bold;
-    }
-  </style>
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#667085;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <div class="logo">TaskPilotAI</div>
-  <div class="balance">$0.00</div>
+  <div class="balance" id="balance">$0.00</div>
 </header>
 
+<section class="hero">
+  <h1>Earn by completing tasks</h1>
+  <p>
+    Choose a task, complete the required action,
+    submit your proof and earn rewards.
+  </p>
+</section>
 
-<!-- HOME / TASK LIST -->
+<main class="container">
 
-<div id="taskList" class="container">
-
-  <section class="hero">
-    <h1>Earn by Completing Tasks</h1>
-    <p>
-      Complete social-media tasks, submit proof,
-      and earn rewards after verification.
-    </p>
-  </section>
-
-  <h2 class="section-title">Available Tasks</h2>
-
-  <div class="filter-buttons">
-    <button class="active" onclick="filterTasks('all', this)">
+  <div class="filter-box">
+    <button class="filter active" onclick="filterTasks('all',this)">
       All
     </button>
 
-    <button onclick="filterTasks('instagram', this)">
+    <button class="filter" onclick="filterTasks('Instagram',this)">
       Instagram
     </button>
 
-    <button onclick="filterTasks('facebook', this)">
+    <button class="filter" onclick="filterTasks('Facebook',this)">
       Facebook
     </button>
   </div>
 
+  <h2 class="section-title">Available Tasks</h2>
 
-  <!-- INSTAGRAM FOLLOW -->
+  <div id="taskList">
 
-  <div class="task" data-platform="instagram">
+    <!-- INSTAGRAM LIKE -->
 
-    <span class="platform">
-      Instagram
-    </span>
+    <div class="task" data-platform="Instagram">
 
-    <div class="task-top">
+      <div class="task-top">
 
-      <div>
-        <h3>Follow an Instagram Account</h3>
+        <div>
+          <h3>❤️ Like an Instagram Post</h3>
 
-        <p>
-          Follow the specified Instagram account
-          and upload a screenshot as proof.
-        </p>
+          <p>
+            Open the Instagram link and like the specified post.
+            Take a screenshot after completing the task.
+          </p>
+
+          <span class="platform">Instagram</span>
+        </div>
+
+        <div class="reward">$0.05</div>
+
       </div>
 
-      <div class="reward">$0.05</div>
-
-    </div>
-
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Follow an Instagram Account',
-        'Open the Instagram link and follow the specified account. After completing the task, take a screenshot showing your proof.',
+      <button onclick="openTask(
+        'Instagram Like',
+        'Instagram',
         '$0.05',
         'https://www.instagram.com/'
       )">
-
-      Start Task
-
-    </button>
-
-  </div>
-
-
-  <!-- INSTAGRAM LIKE -->
-
-  <div class="task" data-platform="instagram">
-
-    <span class="platform">
-      Instagram
-    </span>
-
-    <div class="task-top">
-
-      <div>
-        <h3>Like an Instagram Post</h3>
-
-        <p>
-          Like the specified Instagram post or video
-          and upload a screenshot as proof.
-        </p>
-      </div>
-
-      <div class="reward">$0.03</div>
+        Start Task
+      </button>
 
     </div>
 
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Like an Instagram Post',
-        'Open the Instagram link and like the specified post or video. Take a screenshot after completing the task.',
-        '$0.03',
+
+    <!-- INSTAGRAM FOLLOW -->
+
+    <div class="task" data-platform="Instagram">
+
+      <div class="task-top">
+
+        <div>
+          <h3>➕ Follow an Instagram Account</h3>
+
+          <p>
+            Open the provided Instagram account,
+            follow it and submit a screenshot as proof.
+          </p>
+
+          <span class="platform">Instagram</span>
+        </div>
+
+        <div class="reward">$0.08</div>
+
+      </div>
+
+      <button onclick="openTask(
+        'Instagram Follow',
+        'Instagram',
+        '$0.08',
         'https://www.instagram.com/'
       )">
-
-      Start Task
-
-    </button>
-
-  </div>
-
-
-  <!-- INSTAGRAM COMMENT -->
-
-  <div class="task" data-platform="instagram">
-
-    <span class="platform">
-      Instagram
-    </span>
-
-    <div class="task-top">
-
-      <div>
-        <h3>Comment on Instagram</h3>
-
-        <p>
-          Open the specified Instagram post and
-          leave the required comment.
-        </p>
-      </div>
-
-      <div class="reward">$0.10</div>
+        Start Task
+      </button>
 
     </div>
 
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Comment on Instagram',
-        'Open the Instagram link and leave the required comment. Take a screenshot showing that the task was completed.',
+
+    <!-- INSTAGRAM COMMENT -->
+
+    <div class="task" data-platform="Instagram">
+
+      <div class="task-top">
+
+        <div>
+          <h3>💬 Comment on Instagram</h3>
+
+          <p>
+            Open the provided post and leave the required
+            comment. Submit a screenshot afterward.
+          </p>
+
+          <span class="platform">Instagram</span>
+        </div>
+
+        <div class="reward">$0.10</div>
+
+      </div>
+
+      <button onclick="openTask(
+        'Instagram Comment',
+        'Instagram',
         '$0.10',
         'https://www.instagram.com/'
       )">
-
-      Start Task
-
-    </button>
-
-  </div>
-
-
-  <!-- FACEBOOK FOLLOW -->
-
-  <div class="task" data-platform="facebook">
-
-    <span class="platform">
-      Facebook
-    </span>
-
-    <div class="task-top">
-
-      <div>
-        <h3>Follow a Facebook Page</h3>
-
-        <p>
-          Follow the specified Facebook page
-          and upload screenshot proof.
-        </p>
-      </div>
-
-      <div class="reward">$0.05</div>
+        Start Task
+      </button>
 
     </div>
 
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Follow a Facebook Page',
-        'Open the Facebook link and follow the specified page. Take a screenshot showing your proof.',
+
+    <!-- FACEBOOK LIKE -->
+
+    <div class="task" data-platform="Facebook">
+
+      <div class="task-top">
+
+        <div>
+          <h3>👍 Like a Facebook Page</h3>
+
+          <p>
+            Open the provided Facebook page and complete
+            the required action. Submit proof afterward.
+          </p>
+
+          <span class="platform">Facebook</span>
+        </div>
+
+        <div class="reward">$0.05</div>
+
+      </div>
+
+      <button onclick="openTask(
+        'Facebook Like',
+        'Facebook',
         '$0.05',
         'https://www.facebook.com/'
       )">
-
-      Start Task
-
-    </button>
-
-  </div>
-
-
-  <!-- FACEBOOK LIKE -->
-
-  <div class="task" data-platform="facebook">
-
-    <span class="platform">
-      Facebook
-    </span>
-
-    <div class="task-top">
-
-      <div>
-        <h3>Like a Facebook Post</h3>
-
-        <p>
-          Like the specified Facebook post and
-          upload screenshot proof.
-        </p>
-      </div>
-
-      <div class="reward">$0.03</div>
+        Start Task
+      </button>
 
     </div>
 
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Like a Facebook Post',
-        'Open the Facebook link and like the specified post. Take a screenshot after completing the task.',
-        '$0.03',
-        'https://www.facebook.com/'
-      )">
 
-      Start Task
+    <!-- FACEBOOK FOLLOW -->
 
-    </button>
+    <div class="task" data-platform="Facebook">
 
-  </div>
+      <div class="task-top">
 
+        <div>
 
-  <!-- FACEBOOK COMMENT -->
+          <h3>➕ Follow a Facebook Page</h3>
 
-  <div class="task" data-platform="facebook">
+          <p>
+            Open the provided Facebook page, follow it
+            and upload your screenshot proof.
+          </p>
 
-    <span class="platform">
-      Facebook
-    </span>
+          <span class="platform">Facebook</span>
 
-    <div class="task-top">
+        </div>
 
-      <div>
-        <h3>Comment on Facebook</h3>
+        <div class="reward">$0.08</div>
 
-        <p>
-          Open the specified Facebook post and
-          leave the required comment.
-        </p>
       </div>
 
-      <div class="reward">$0.10</div>
+      <button onclick="openTask(
+        'Facebook Follow',
+        'Facebook',
+        '$0.08',
+        'https://www.facebook.com/'
+      )">
+        Start Task
+      </button>
 
     </div>
 
-    <button
-      class="start-btn"
-      onclick="openTask(
-        'Comment on Facebook',
-        'Open the Facebook link and leave the required comment. Take a screenshot showing your proof.',
-        '$0.10',
-        'https://www.facebook.com/'
-      )">
-
-      Start Task
-
-    </button>
-
   </div>
 
-</div>
+</main>
 
 
-<!-- TASK DETAILS PAGE -->
+<!-- TASK MODAL -->
 
-<div id="taskPage" class="container task-page">
+<div class="modal" id="taskModal">
 
-  <button class="back-btn" onclick="goBack()">
-    ← Back to Tasks
-  </button>
+  <div class="modal-box">
 
-  <div class="instruction-box">
-
-    <h2 id="taskTitle">
+    <h2 id="modalTitle">
       Task
     </h2>
 
-    <p id="taskInstructions">
-    </p>
-
-    <p>
-      <strong>Reward:</strong>
-      <span id="taskReward">
-      </span>
-    </p>
+    <div class="step">
+      <strong>Step 1</strong><br>
+      Tap the button below to open the task destination.
+    </div>
 
     <a
       id="taskLink"
       class="task-link"
       href="#"
       target="_blank"
-      rel="noopener noreferrer">
-
+      rel="noopener noreferrer"
+    >
       Open Task
-
     </a>
 
-    <p>
-      Complete the task manually on the social-media
-      platform. When finished, take a screenshot
-      showing your proof and return here.
-    </p>
+    <div class="step">
+      <strong>Step 2</strong><br>
+      Complete the requested action on the destination
+      platform.
+    </div>
 
-  </div>
+    <div class="step">
+      <strong>Step 3</strong><br>
+      Take a screenshot showing your completed task.
+    </div>
 
+    <div class="step">
+      <strong>Step 4</strong><br>
+      Return here and upload your screenshot as proof.
+    </div>
 
-  <!-- PROOF -->
-
-  <div class="proof-box">
-
-    <h3>
-      Upload Your Proof
-    </h3>
-
-    <p>
-      Upload a screenshot showing that you completed
-      the requested task.
-    </p>
-
-
-    <label for="proofImage">
-      Screenshot Proof
+    <label>
+      Upload Proof Screenshot
     </label>
 
     <input
       type="file"
-      id="proofImage"
+      id="proof"
       accept="image/*"
-      onchange="previewProof(event)"
     >
 
-    <img
-      id="preview"
-      alt="Proof Preview"
-    >
-
-
-    <label for="username">
-      Social Media Username
+    <label>
+      Your Instagram/Facebook Username
     </label>
 
     <input
       type="text"
       id="username"
       placeholder="@yourusername"
-      autocomplete="off"
     >
-
 
     <button
       class="submit-btn"
-      onclick="submitProof()">
-
+      onclick="submitProof()"
+    >
       Submit Proof
-
     </button>
 
-
-    <div
-      id="status"
-      class="status">
-
-      Proof submitted successfully.
-      Pending verification.
-
-    </div>
+    <button
+      class="close-btn"
+      onclick="closeTask()"
+    >
+      Cancel
+    </button>
 
   </div>
 
 </div>
 
-
-<!-- BOTTOM NAVIGATION -->
 
 <nav class="bottom-nav">
 
@@ -687,200 +574,149 @@
 
 <script>
 
-  let currentTask = "";
+let currentTask = null;
+
+let balance = 0;
 
 
-  function openTask(
-    title,
-    instructions,
-    reward,
-    link
-  ) {
+/* OPEN TASK */
 
-    currentTask = title;
+function openTask(name, platform, reward, link){
 
-    document.getElementById(
-      "taskTitle"
-    ).textContent = title;
+  currentTask = {
+    name:name,
+    platform:platform,
+    reward:reward
+  };
 
-    document.getElementById(
-      "taskInstructions"
-    ).textContent = instructions;
+  document.getElementById("modalTitle").innerText =
+    name + " — " + reward;
 
-    document.getElementById(
-      "taskReward"
-    ).textContent = reward;
+  document.getElementById("taskLink").href = link;
 
-    document.getElementById(
-      "taskLink"
-    ).href = link;
+  document.getElementById("proof").value = "";
 
-    document.getElementById(
-      "taskList"
-    ).style.display = "none";
+  document.getElementById("username").value = "";
 
-    document.getElementById(
-      "taskPage"
-    ).style.display = "block";
+  document.getElementById("taskModal").style.display = "block";
+}
 
-    document.getElementById(
-      "status"
-    ).style.display = "none";
 
-    document.getElementById(
-      "proofImage"
-    ).value = "";
+/* CLOSE TASK */
 
-    document.getElementById(
-      "username"
-    ).value = "";
+function closeTask(){
 
-    document.getElementById(
-      "preview"
-    ).style.display = "none";
+  document.getElementById("taskModal").style.display = "none";
 
-    window.scrollTo(0, 0);
+}
+
+
+/* SUBMIT PROOF */
+
+function submitProof(){
+
+  const proof =
+    document.getElementById("proof").files[0];
+
+  const username =
+    document.getElementById("username").value.trim();
+
+  if(!proof){
+
+    alert("Please upload your proof screenshot.");
+
+    return;
+  }
+
+  if(!username){
+
+    alert("Please enter your Instagram or Facebook username.");
+
+    return;
   }
 
 
-  function goBack() {
+  /*
+    DEMO ONLY:
 
-    document.getElementById(
-      "taskPage"
-    ).style.display = "none";
+    In the real version, this information will be
+    sent to the backend for verification.
+  */
 
-    document.getElementById(
-      "taskList"
-    ).style.display = "block";
+  alert(
+    "Proof submitted successfully!\n\n" +
+    "Task: " + currentTask.name + "\n" +
+    "Platform: " + currentTask.platform + "\n" +
+    "Username: " + username + "\n\n" +
+    "Your proof is waiting for verification."
+  );
 
-    window.scrollTo(0, 0);
-  }
+
+  closeTask();
+
+}
 
 
-  function previewProof(event) {
+/* FILTER TASKS */
 
-    const file =
-      event.target.files[0];
+function filterTasks(platform, button){
 
-    if (!file) {
-      return;
+  const tasks =
+    document.querySelectorAll(".task");
+
+  const buttons =
+    document.querySelectorAll(".filter");
+
+
+  buttons.forEach(function(btn){
+
+    btn.classList.remove("active");
+
+  });
+
+
+  button.classList.add("active");
+
+
+  tasks.forEach(function(task){
+
+    if(platform === "all"){
+
+      task.style.display = "block";
+
     }
 
-    const preview =
-      document.getElementById(
-        "preview"
-      );
+    else if(task.dataset.platform === platform){
 
-    preview.src =
-      URL.createObjectURL(file);
+      task.style.display = "block";
 
-    preview.style.display =
-      "block";
-  }
-
-
-  function submitProof() {
-
-    const image =
-      document.getElementById(
-        "proofImage"
-      ).files[0];
-
-    const username =
-      document.getElementById(
-        "username"
-      ).value.trim();
-
-
-    if (!image) {
-
-      alert(
-        "Please upload your screenshot proof."
-      );
-
-      return;
     }
 
+    else{
 
-    if (!username) {
+      task.style.display = "none";
 
-      alert(
-        "Please enter your social-media username."
-      );
-
-      return;
     }
 
+  });
 
-    document.getElementById(
-      "status"
-    ).style.display = "block";
-
-
-    document.getElementById(
-      "status"
-    ).textContent =
-      "Proof submitted successfully. Pending verification.";
+}
 
 
-    window.scrollTo(
-      0,
-      document.body.scrollHeight
-    );
-  }
+/* CLOSE MODAL WHEN CLICKING OUTSIDE */
 
+window.onclick = function(event){
 
-  function filterTasks(
-    platform,
-    button
-  ) {
+  const modal =
+    document.getElementById("taskModal");
 
-    const tasks =
-      document.querySelectorAll(
-        ".task"
-      );
+  if(event.target === modal){
 
-
-    const buttons =
-      document.querySelectorAll(
-        ".filter-buttons button"
-      );
-
-
-    buttons.forEach(function(btn) {
-
-      btn.classList.remove(
-        "active"
-      );
-
-    });
-
-
-    button.classList.add(
-      "active"
-    );
-
-
-    tasks.forEach(function(task) {
-
-      if (
-        platform === "all" ||
-        task.dataset.platform === platform
-      ) {
-
-        task.style.display =
-          "block";
-
-      } else {
-
-        task.style.display =
-          "none";
-
-      }
-
-    });
+    closeTask();
 
   }
+
+};
 
 </script>
 
